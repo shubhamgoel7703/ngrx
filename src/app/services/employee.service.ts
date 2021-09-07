@@ -12,7 +12,7 @@ export class EmployeeService {
 
   constructor(private http:HttpClient) { }
 
-  getEmployeeList(pageNumber:string):Observable<IEmployee[]>{
+  getEmployeeList(pageNumber:number):Observable<IEmployee[]>{
     return this.http.get<IEmployee[]>(this.baseurl+'?page='+pageNumber);
   }
   

@@ -6,6 +6,7 @@ import { IEmployee } from 'src/app/modals/IEmployee'
 export class FetchEmployeesAction{
     static readonly type = '[Employee] fetch Employee';
     public readonly type = FetchEmployeesAction.type;
+    constructor(public readonly pageNumber:number){}
 }
 
 export class SaveEmployeesAction{

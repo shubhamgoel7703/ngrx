@@ -14,7 +14,7 @@ import { environment } from '../../../environments/environment';
 import { EmployeeAction, SaveEmployeesAction } from '../actions/employee.actions';
 
 export interface EmployeeState {
-  employeeList:ReadonlyArray<IEmployee[]>
+  employeeList:ReadonlyArray<IEmployee>
 }
 
 const initState:EmployeeState={employeeList:[]};
@@ -28,8 +28,8 @@ export function employeeReducer(
     switch(action.type){
       case(SaveEmployeesAction.type):{
         console.log("SaveEmployeesAction called");
-        let employeeList = [...state.employeeList,action.employees]
-        return {...state,employeeList}
+        let employeeList = [...state.employeeList,...action.employees]
+        return {employeeList}
       }
     }
     return state;
