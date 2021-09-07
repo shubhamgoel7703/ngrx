@@ -6,7 +6,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { EmployeeComponent } from './components/employee/employee.component';
 import { StoreModule } from '@ngrx/store';
-import { reducer } from './store/reducers/employee.reducers';
+import { employeeReducer, metaReducers } from './store/reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { EmployeeEffects } from './store/effects/employeeEffects';
 
 @NgModule({
   declarations: [
@@ -17,9 +19,10 @@ import { reducer } from './store/reducers/employee.reducers';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    StoreModule.forRoot({
-      employeeData:reducer
-    })
+    StoreModule.forFeature('employee',employeeReducer),
+    StoreModule.forRoot([]),
+    EffectsModule.forRoot([]),
+    EffectsModule.forFeature([EmployeeEffects])
   ],
   providers: [],
   bootstrap: [AppComponent]

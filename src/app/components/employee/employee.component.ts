@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { IEmployee } from 'src/app/modals/IEmployee';
+import { FetchEmployeesAction } from 'src/app/store/actions/employee.actions';
 
 @Component({
   selector: 'app-employee',
@@ -9,7 +11,7 @@ import { IEmployee } from 'src/app/modals/IEmployee';
 export class EmployeeComponent implements OnInit {
   employeeData: IEmployee[]=[];
 
-  constructor() { }
+  constructor(private store:Store) { }
 
   ngOnInit(): void {
     let obj:IEmployee={
@@ -22,6 +24,8 @@ export class EmployeeComponent implements OnInit {
 
     this.employeeData.push(obj);
     this.employeeData.push(obj);
+
+    this.store.dispatch(new FetchEmployeesAction())
   }
 
 }
