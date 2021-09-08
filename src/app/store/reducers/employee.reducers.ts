@@ -19,15 +19,11 @@ export interface EmployeeState {
 
 const initState:EmployeeState={employeeList:[]};
 
-// export const reducers: ActionReducerMap<EmployeeState,Action> = createReducer({employees:initState},
-//   on(saveEmployees,(state,action)=>[...state]))
-
 export function employeeReducer(
   state:EmployeeState = initState,
   action:EmployeeAction):EmployeeState{
     switch(action.type){
       case(SaveEmployeesAction.type):{
-        console.log("SaveEmployeesAction called");
         let employeeList = [...state.employeeList,...action.employees]
         return {employeeList}
       }
