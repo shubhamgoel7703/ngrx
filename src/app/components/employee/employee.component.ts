@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { IEmployee } from 'src/app/modals/IEmployee';
-import { FetchEmployeesAction } from 'src/app/store/actions/employee.actions';
-import { selectEmployeeList } from 'src/app/store/selectors/employee.selectors';
+import { EmployeesFascadeService } from 'src/app/fascade/employees-fascade.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-employee',
@@ -11,20 +10,23 @@ import { selectEmployeeList } from 'src/app/store/selectors/employee.selectors';
 })
 export class EmployeeComponent implements OnInit {
   currentPage=1;
-
   employeeData: IEmployee[]=[];
+  allEmployees$: Observable<ReadonlyArray<IEmployee>>
 
-  constructor(private store:Store) { }
+
+  constructor(private employeesFascadeService:EmployeesFascadeService) {
+    this.allEmployees$ = this.employeesFascadeService.allEmployees$;
+   }
 
   ngOnInit(): void {
-    this.store.select(selectEmployeeList).subscribe(
+    this.allEmployees$.subscribe(
       (employeeList: readonly IEmployee[])=>{
         let start = (6*(this.currentPage-1));
         let end = (6*(this.currentPage));
       let arr = employeeList.slice(start,end)
       this.employeeData=arr;
     })
-    this.fetchPage();
+    this.employeesFascadeService.fetchEmployees(this.currentPage);
   }
 
   pageChange(operator:string){
@@ -36,12 +38,8 @@ export class EmployeeComponent implements OnInit {
     this.currentPage--;
     }
 
-    this.fetchPage();
+    this.employeesFascadeService.fetchEmployees(this.currentPage);
 
-  }
-
-  fetchPage(){
-    this.store.dispatch(new FetchEmployeesAction(this.currentPage))
   }
 
 }
